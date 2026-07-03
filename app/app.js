@@ -382,6 +382,10 @@ function finishRequest(finalText, isError = false) {
   updateControls();
 }
 
+function isThinkingModel() {
+  return modelSelect.value.includes("Thinking");
+}
+
 function summarizeSection(section, block, button) {
   if (!modelReady || isGenerating) return;
 
@@ -440,7 +444,7 @@ function summarizeSection(section, block, button) {
       },
     ],
     options: {
-      max_new_tokens: 220,
+      max_new_tokens: isThinkingModel() ? 600 : 220,
       do_sample: false,
     },
   });
@@ -476,7 +480,7 @@ function askQuestion() {
       },
     ],
     options: {
-      max_new_tokens: 320,
+      max_new_tokens: isThinkingModel() ? 900 : 320,
       do_sample: false,
     },
   });

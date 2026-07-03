@@ -1,5 +1,5 @@
 {
   "title": "LFM2.5 Reader + Q&A",
-  "description": "Paste long text, clean it into readable sections, summarize each section, and ask questions in-browser with WebGPU. Choose between LFM2.5 230M, 350M, and 1.2B-Instruct.",
+  "description": "Paste long text, clean it into readable sections, summarize each section, and ask questions in-browser with WebGPU. Choose between LFM2.5 230M, 350M, 1.2B-Instruct, and 1.2B-Thinking.",
   "icon": "icon.jpg"
 }

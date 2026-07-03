@@ -11,6 +11,7 @@ A model-size dropdown in the UI lets you switch between:
 | LFM2.5 230M (fastest) | 0.2B | [onnx-community/LFM2.5-230M-ONNX](https://huggingface.co/onnx-community/LFM2.5-230M-ONNX) (q4) |
 | LFM2.5 350M (default) | 0.4B | [onnx-community/LFM2.5-350M-ONNX](https://huggingface.co/onnx-community/LFM2.5-350M-ONNX) (q4) |
 | LFM2.5 1.2B Instruct (best quality) | 1.2B | [LiquidAI/LFM2.5-1.2B-Instruct-ONNX](https://huggingface.co/LiquidAI/LFM2.5-1.2B-Instruct-ONNX) (q4) |
+| LFM2.5 1.2B Thinking (reasoning) | 1.2B | [LiquidAI/LFM2.5-1.2B-Thinking-ONNX](https://huggingface.co/LiquidAI/LFM2.5-1.2B-Thinking-ONNX) (q4) |
 
 Switching models reloads the worker and re-downloads the selected model on first use.
 
@@ -40,7 +41,7 @@ Switching models reloads the worker and re-downloads the selected model on first
 - Cleanup removes URLs, markdown image syntax, HTML tags, and noisy spacing
 - Converted text is split into sections with a **Summarize** button on each paragraph
 - Floating bottom-right Q&A box answers questions using the converted text only
-- Switch between LFM2.5 230M / 350M / 1.2B-Instruct without leaving the page
+- Switch between LFM2.5 230M / 350M / 1.2B-Instruct / 1.2B-Thinking without leaving the page (the Thinking model gets a larger token budget to allow for its reasoning output)
 
 ## Programmatic access
 
