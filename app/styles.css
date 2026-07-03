@@ -570,6 +570,29 @@ button:disabled {
   box-shadow: 0 0 0 6px rgba(34, 197, 94, 0.12);
 }
 
+.model-select {
+  margin-left: 0.4rem;
+  padding: 0.3rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.model-select:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.model-select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
 @media (max-width: 900px) {
   .layout {
     grid-template-columns: 1fr;

@@ -1,4 +1,4 @@
-import { pipeline, TextStreamer } from "https://cdn.jsdelivr.net/npm/@huggingface/transformers";
+import { pipeline, TextStreamer } from "https://cdn.jsdelivr.net/npm/@huggingface/transformers@4.2.0";
 
 let generator = null;
 let currentAbortController = null;
@@ -15,8 +15,10 @@ self.addEventListener("message", async (e) => {
   }
 
   if (type === "load") {
+    const modelId = e.data.modelId || "onnx-community/LFM2.5-350M-ONNX";
+    generator = null;
     try {
-      generator = await pipeline("text-generation", "onnx-community/LFM2.5-350M-ONNX", {
+      generator = await pipeline("text-generation", modelId, {
         dtype: "q4",
         device: "webgpu",
         progress_callback: (progress) => {

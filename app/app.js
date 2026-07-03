@@ -18,6 +18,7 @@ const metaWords = document.getElementById("meta-words");
 const metaModel = document.getElementById("meta-model");
 const readyDot = document.getElementById("ready-dot");
 const readyText = document.getElementById("ready-text");
+const modelSelect = document.getElementById("model-select");
 
 const chatInput = document.getElementById("chat-input");
 const chatSend = document.getElementById("chat-send");
@@ -39,7 +40,7 @@ let articleSource = "";
 let sections = [];
 let activeRequest = null;
 
-worker.postMessage({ type: "load" });
+worker.postMessage({ type: "load", modelId: modelSelect.value });
 
 worker.addEventListener("message", (event) => {
   const data = event.data;
@@ -58,10 +59,19 @@ worker.addEventListener("message", (event) => {
     readyDot.classList.add("online");
     readyText.textContent = "Model ready";
     metaModel.textContent = "Ready";
+    modelSelect.disabled = false;
     updateControls();
     if (sections.length > 0) {
       chatInput.focus();
     }
+    return;
+  }
+
+  if (data.type === "error" && !activeRequest) {
+    loadingDetail.textContent = "Failed to load model: " + data.message;
+    readyText.textContent = "Model failed to load";
+    metaModel.textContent = "Failed";
+    modelSelect.disabled = false;
     return;
   }
 
@@ -511,6 +521,26 @@ chatClose.addEventListener("click", () => {
   if (!isGenerating) {
     chatResponse.classList.remove("visible");
   }
+});
+
+modelSelect.addEventListener("change", () => {
+  if (isGenerating) return;
+
+  worker.postMessage({ type: "abort" });
+  isGenerating = false;
+  activeRequest = null;
+
+  modelReady = false;
+  modelSelect.disabled = true;
+  loadingOverlay.classList.remove("hidden");
+  loadingProgressFill.style.width = "0%";
+  loadingDetail.textContent = "Starting...";
+  readyDot.classList.remove("online");
+  readyText.textContent = "Loading WebGPU model...";
+  metaModel.textContent = "Loading";
+  updateControls();
+
+  worker.postMessage({ type: "load", modelId: modelSelect.value });
 });
 
 updateMeta();

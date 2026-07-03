@@ -20,6 +20,11 @@
     <div class="ready-indicator">
       <span id="ready-dot" class="ready-dot"></span>
       <span id="ready-text">Loading WebGPU model...</span>
+      <select id="model-select" class="model-select" aria-label="Model size">
+        <option value="onnx-community/LFM2.5-230M-ONNX">LFM2.5 230M (fastest)</option>
+        <option value="onnx-community/LFM2.5-350M-ONNX" selected>LFM2.5 350M (default)</option>
+        <option value="LiquidAI/LFM2.5-1.2B-Instruct-ONNX">LFM2.5 1.2B Instruct (best quality)</option>
+      </select>
     </div>
 
     <section class="composer">
