@@ -4,14 +4,14 @@ module.exports = {
     {
       method: "notify",
       params: {
-        html: "Starting LFM2.5-350M Reader + Q&A server..."
+        html: "Starting LFM2.5 Reader + Q&A server..."
       }
     },
     {
       method: "shell.run",
       params: {
         path: "app",
-        message: "npx --yes serve . -l {{port}} -s",
+        message: "npm start -- --listen tcp://127.0.0.1:{{port}}",
         on: [{
           event: "/(http:\\/\\/[0-9.:]+)/",
           done: true
@@ -27,7 +27,7 @@ module.exports = {
     {
       method: "notify",
       params: {
-        html: "LFM2.5-350M Reader + Q&A is running. Open the Web UI to convert text, summarize sections, and ask questions."
+        html: "LFM2.5 Reader + Q&A is running. Open the Web UI to convert text, summarize sections, and ask questions."
       }
     }
   ]

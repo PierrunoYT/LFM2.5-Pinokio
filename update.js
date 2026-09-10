@@ -3,7 +3,13 @@ module.exports = {
     method: "shell.run",
     params: {
       path: ".",
-      message: "git pull",
+      message: "git pull --ff-only",
+    }
+  }, {
+    method: "shell.run",
+    params: {
+      path: "app",
+      message: "npm ci --no-audit --no-fund",
     }
   }, {
     method: "notify",

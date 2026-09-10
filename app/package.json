@@ -1,0 +1,12 @@
+{
+  "name": "lfm25-reader",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "serve . --no-clipboard",
+    "test": "node --test ../tests/*.test.mjs"
+  },
+  "dependencies": {
+    "serve": "14.2.6"
+  }
+}

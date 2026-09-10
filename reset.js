@@ -1,16 +1,15 @@
 module.exports = {
   run: [
     {
-      method: "shell.run",
+      method: "fs.rm",
       params: {
-        path: ".",
-        message: "git checkout ."
+        path: "app/node_modules"
       }
     },
     {
       method: "notify",
       params: {
-        html: "✅ Reset complete. The app has been reverted to its original state."
+        html: "Server dependencies removed. Run Install before starting again. Browser model caches and source files are unchanged."
       }
     }
   ]

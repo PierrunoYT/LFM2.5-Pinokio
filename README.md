@@ -17,7 +17,8 @@ Switching models reloads the worker and re-downloads the selected model on first
 
 ## Requirements
 
-- A modern browser with **WebGPU** support (Chrome 113+, Edge 113+)
+- A browser and GPU with working **WebGPU** support, opened on localhost or HTTPS
+- Internet access for installation, the Transformers.js module, and first model downloads
 - No Python, no GPU server, no CUDA needed
 
 ## How It Works
@@ -30,10 +31,22 @@ Switching models reloads the worker and re-downloads the selected model on first
 
 ## Getting Started (Pinokio)
 
-1. **Install** — Run **Install** in the Pinokio sidebar for a short note on setup (no extra downloads are required).
+1. **Install** — Run **Install** in the Pinokio sidebar to install the locked static-server dependencies using Pinokio's Node.js/npm.
 2. **Start** — Run **Start** to launch the local HTTP server for `app/`.
 3. **Open Web UI** — When the server is running, use **Open Web UI** to open the reader and Q&A interface.
 4. Pick a model size from the dropdown; it downloads automatically on first use.
+
+The server listens only on `127.0.0.1`, using a free port selected by Pinokio.
+**Update** fast-forwards the repository and reinstalls the locked dependencies.
+**Reset** removes only `app/node_modules`; run **Install** again afterward. It does not discard source edits or clear browser model caches. To clear model downloads, clear site data for the Web UI in your browser settings.
+
+If loading fails, the reader stays usable for text conversion. Use **Reload model** to retry, or select another model. Model switching releases the previous worker and is disabled during generation. Speed statistics count streamed text chunks, which may contain multiple tokens.
+
+For a standalone launch with Node.js/npm, run `npm ci` inside `app/`, then `npm start -- --listen tcp://127.0.0.1:3000`.
+
+## Validation
+
+With Node.js 20 or newer, install dependencies with `npm ci --prefix app`, then run `node --test tests/*.test.mjs` from the repository root. Tests cover text preservation, section limits, worker lifecycle, failure recovery, launcher menus, and a real local server. Worker tests use a model stub; actual inference still requires a WebGPU browser and downloaded model weights.
 
 ## Features
 

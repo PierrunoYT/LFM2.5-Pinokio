@@ -6,6 +6,7 @@ env/
 .huggingface/
 
 # Generated files
+node_modules/
 outputs/
 *.wav
 *.mp3
