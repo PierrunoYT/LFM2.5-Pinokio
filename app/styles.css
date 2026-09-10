@@ -453,6 +453,7 @@ button:disabled {
 }
 
 .chat-input {
+  min-width: 0;
   flex: 1;
   padding: 6px 0;
   border: none;
@@ -549,6 +550,7 @@ button:disabled {
 }
 
 .ready-indicator {
+  flex-wrap: wrap;
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
@@ -571,6 +573,7 @@ button:disabled {
 }
 
 .model-select {
+  max-width: 100%;
   margin-left: 0.4rem;
   padding: 0.3rem 0.6rem;
   border: 1px solid var(--border);

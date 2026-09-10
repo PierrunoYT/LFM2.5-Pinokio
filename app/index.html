@@ -19,17 +19,18 @@
 
     <div class="ready-indicator">
       <span id="ready-dot" class="ready-dot"></span>
-      <span id="ready-text">Loading WebGPU model...</span>
+      <span id="ready-text" role="status">Loading WebGPU model...</span>
       <select id="model-select" class="model-select" aria-label="Model size">
         <option value="onnx-community/LFM2.5-230M-ONNX">LFM2.5 230M (fastest)</option>
         <option value="onnx-community/LFM2.5-350M-ONNX" selected>LFM2.5 350M (default)</option>
         <option value="LiquidAI/LFM2.5-1.2B-Instruct-ONNX">LFM2.5 1.2B Instruct (best quality)</option>
         <option value="LiquidAI/LFM2.5-1.2B-Thinking-ONNX">LFM2.5 1.2B Thinking (reasoning)</option>
       </select>
+      <button id="retry-model" class="secondary-btn">Reload model</button>
     </div>
 
     <section class="composer">
-      <textarea id="source-input" placeholder="Paste the full text here..."></textarea>
+      <textarea id="source-input" aria-label="Source text" placeholder="Paste the full text here..."></textarea>
       <div class="composer-footer">
         <div class="composer-note" id="composer-note">
           Convert cleans URLs, markdown image syntax, HTML tags, and extra whitespace before splitting into sections.
@@ -91,6 +92,7 @@
         type="text"
         class="chat-input"
         id="chat-input"
+        aria-label="Question about the converted text"
         placeholder="Ask about the converted text..."
         autocomplete="off"
         disabled
@@ -114,7 +116,7 @@
 
   <div class="loading-overlay" id="loading-overlay">
     <div class="loading-card">
-      <h2>Loading LFM2.5-350M</h2>
+      <h2>Loading selected model</h2>
       <p>Downloading the browser model and preparing WebGPU.</p>
       <div class="loading-progress">
         <div class="loading-progress-fill" id="loading-progress-fill"></div>
