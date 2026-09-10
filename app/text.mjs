@@ -17,7 +17,7 @@ export function cleanText(rawText) {
   text = text.replace(/https?:\/\/[^\s)>\]]+/g, "");
 
   // Remove citation brackets like [1], [2,3], [citation needed]
-  text = text.replace(/\[\d+(?:[,\s]*\d+)*\]/g, "");
+  text = text.replace(/\[\d+(?:[,\s]+\d+)*\]/g, "");
   text = text.replace(/\[citation needed\]/gi, "");
 
   // Remove markdown bold/italic markers
@@ -84,7 +84,7 @@ export function splitSections(cleanedText) {
   // and an unpunctuated tail cannot be skipped or duplicated.
   chunks = chunks.flatMap((chunk) => {
     if (chunk.split(/\s+/).length <= 200) return [chunk];
-    const sentences = chunk.split(/(?<!\d)(?<=[.!?])\s+/);
+    const sentences = chunk.split(/(?<!\d\.)(?<=[.!?])\s+/);
     const result = [];
     let words = [];
     for (const sentence of sentences) {
@@ -93,8 +93,16 @@ export function splitSections(cleanedText) {
         result.push(words.join(" "));
         words = [];
       }
-      words.push(...next);
-      while (words.length > 200) result.push(words.splice(0, 200).join(" "));
+      // Bound each append: spreading a whole pasted document can exceed the
+      // engine's argument limit, and repeatedly splicing it is quadratic.
+      for (let offset = 0; offset < next.length; offset += 200) {
+        const part = next.slice(offset, offset + 200);
+        if (words.length && words.length + part.length > 200) {
+          result.push(words.join(" "));
+          words = [];
+        }
+        words.push(...part);
+      }
     }
     if (words.length) result.push(words.join(" "));
     return result;

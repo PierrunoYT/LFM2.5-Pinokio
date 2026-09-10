@@ -1,5 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { spawnSync } from 'node:child_process';
 import { cleanText, splitSections } from '../app/text.mjs';
 
 test('preserves paragraphs, CRLF, short text, and meaningful fractions', () => {
@@ -32,4 +33,20 @@ test('bounds long unpunctuated paragraphs even with multiple paragraphs', () => 
   const sections = splitSections(`${paragraph}\n\n${paragraph}`);
   assert.ok(sections.every(s => s.wordCount <= 200));
   assert.equal(sections.map(s => s.text).join(' '), `${paragraph} ${paragraph}`);
+});
+
+test('unfinished numeric citations cannot freeze the UI through backtracking', () => {
+  const source = new URL('../app/text.mjs', import.meta.url).href;
+  const result = spawnSync(process.execPath, ['--input-type=module', '-e',
+    `import { cleanText } from ${JSON.stringify(source)}; cleanText('[' + '9'.repeat(1000));`
+  ], { timeout: 3000 });
+  assert.equal(result.status, 0, result.error?.message || result.stderr.toString());
+  assert.equal(cleanText('Fact [1, 2,3] [4 5].'), 'Fact .');
+});
+
+test('very long unpunctuated input does not overflow the argument stack', () => {
+  const source = Array(150000).fill('word').join(' ');
+  const sections = splitSections(source);
+  assert.equal(sections.map(s => s.text).join(' '), source);
+  assert.ok(sections.every(s => s.wordCount <= 200));
 });
