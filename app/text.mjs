@@ -20,8 +20,10 @@ export function cleanText(rawText) {
   text = text.replace(/\[\d+(?:[,\s]+\d+)*\]/g, "");
   text = text.replace(/\[citation needed\]/gi, "");
 
-  // Remove markdown bold/italic markers
-  text = text.replace(/(\*{1,3}|_{1,3})(.*?)\1/g, "$2");
+  // Remove markdown bold/italic markers. Delimiters must hug their text, and
+  // underscores must sit at word edges, so snake_case and "2 * 3" survive.
+  text = text.replace(/(\*{1,3})(?=\S)([^\n]*?\S)\1/g, "$2");
+  text = text.replace(/(?<!\w)(_{1,3})(?=\S)([^\n]*?\S)\1(?!\w)/g, "$2");
 
   // Remove markdown headings markers (keep text)
   text = text.replace(/^#{1,6}\s+/gm, "");
@@ -33,13 +35,13 @@ export function cleanText(rawText) {
   text = text.replace(/```[\s\S]*?```/g, "");
   text = text.replace(/`([^`]+)`/g, "$1");
 
-  // Decode common HTML entities
-  text = text.replace(/&amp;/g, "&");
+  // Decode common HTML entities; &amp; last so "&amp;lt;" stays "&lt;".
   text = text.replace(/&lt;/g, "<");
   text = text.replace(/&gt;/g, ">");
   text = text.replace(/&quot;/g, '"');
   text = text.replace(/&#39;/g, "'");
   text = text.replace(/&nbsp;/g, " ");
+  text = text.replace(/&amp;/g, "&");
 
   // Remove pipe-separated navigation menus (e.g. "Home | News | Sport | ...")
   // Only removes the pipe-delimited segments themselves, not what follows the last pipe

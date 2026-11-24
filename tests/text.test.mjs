@@ -14,6 +14,12 @@ test('HTML paragraphs remain separate and script/style contents are removed', ()
   assert.equal(cleanText('Use 2 < 3 and 5 > 4.'), 'Use 2 < 3 and 5 > 4.');
 });
 
+test('markup cleanup keeps identifiers, arithmetic and escaped entities', () => {
+  assert.equal(cleanText('Call my_var_name with 2 * 3 * 4.'), 'Call my_var_name with 2 * 3 * 4.');
+  assert.equal(cleanText('Use **bold**, *a*, and _it_ here.'), 'Use bold, a, and it here.');
+  assert.equal(cleanText('Write &amp;lt;b&amp;gt; literally.'), 'Write &lt;b&gt; literally.');
+});
+
 test('publication timestamps do not leave partial dates or times', () => {
   for (const marker of ['13:06', '9:05', '1. April 2026, 13:06', '01.04.2026 13:06', '1.']) {
     assert.equal(cleanText(`Publiziert ${marker}\nArticle content.`), 'Article content.');
